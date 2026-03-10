@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import pastesImg from "@/assets/pastes-closeup.jpg";
+import pasteriasImg from "@/assets/pasterias.png";
 
 const recipeSteps = [
   { type: "heading", text: "RECETA TRADICIONAL" },
@@ -29,11 +30,7 @@ const Pastes = () => {
     <div>
       {/* Hero */}
       <section className="relative h-[70vh] overflow-hidden">
-        <img
-          src={pastesImg}
-          alt="Pastes tradicionales de Real del Monte"
-          className="w-full h-full object-cover"
-        />
+        <img src={pastesImg} alt="Pastes tradicionales de Real del Monte" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-foreground/30" />
         <div className="absolute inset-0 flex items-end">
           <div className="narrative-column pb-16">
@@ -48,6 +45,25 @@ const Pastes = () => {
           <p className="font-body text-xl md:text-2xl leading-relaxed mb-16">
             En 1824, los mineros de Cornualles llegaron a Real del Monte con una receta sencilla: masa, papa, cebolla, carne. Le llamaban <em>Cornish pasty</em>. Lo hacían con una orilla gruesa para sostenerlo con las manos sucias de mineral, y luego tirar esa orilla — una ofrenda involuntaria a los espíritus de la mina.
           </p>
+
+          {/* Pasterias illustration */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="mb-16"
+          >
+            <img
+              src={pasteriasImg}
+              alt="Pastes El Portal — Pastería tradicional de Real del Monte"
+              className="w-full rounded-sm"
+            />
+            <p className="font-body text-sm text-muted-foreground mt-3 italic text-center">
+              Las pasterías de Real del Monte mantienen viva una tradición de casi 200 años.
+            </p>
+          </motion.div>
+
           <p className="font-body text-lg leading-relaxed mb-16">
             Dos siglos después, el paste es de Real del Monte. Se rellena de tinga, de mole, de frijol con queso, de piña. Cada familia tiene su versión. Cada panadería, su secreto. Pero la forma — esa media luna sellada a mano — permanece intacta, como un gesto que cruza el tiempo.
           </p>

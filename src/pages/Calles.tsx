@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import heroCalles from "@/assets/hero-calles.jpg";
+import plateriasImg from "@/assets/platerias.png";
+import artesaniasImg from "@/assets/artesanias.png";
 
 const Calles = () => {
   return (
@@ -36,6 +38,20 @@ const Calles = () => {
             Los empedrados son originales en muchos tramos. Las piedras, pulidas por siglos de pasos, brillan cuando llueve — y en Real del Monte siempre está a punto de llover. Las fachadas combinan el adobe mexicano con detalles victorianos: marcos de madera, chimeneas que no deberían estar ahí, techos de dos aguas que delatan la nostalgia de los mineros ingleses por su clima lluvioso.
           </motion.p>
 
+          {/* Platerías illustration */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="my-16"
+          >
+            <img src={plateriasImg} alt="Platería del Monte — Joyería de plata artesanal" className="w-full rounded-sm" />
+            <p className="font-body text-sm text-muted-foreground mt-3 italic text-center">
+              Las platerías del pueblo guardan el legado de siglos de minería convertidos en arte.
+            </p>
+          </motion.div>
+
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -55,6 +71,20 @@ const Calles = () => {
           >
             "Las calles de Real del Monte tienen la textura del tiempo. Cada piedra es una fecha, cada grieta un recuerdo."
           </motion.blockquote>
+
+          {/* Artesanías illustration */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="my-16"
+          >
+            <img src={artesaniasImg} alt="Artesanías y Micheladas Don Lorenzo" className="w-full rounded-sm" />
+            <p className="font-body text-sm text-muted-foreground mt-3 italic text-center">
+              Los puestos de artesanías son parte del alma comercial del pueblo.
+            </p>
+          </motion.div>
 
           <motion.p
             initial={{ opacity: 0 }}
