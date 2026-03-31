@@ -4,11 +4,13 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import CompassNav from "@/components/CompassNav";
+import GuideOrb from "@/components/GuideOrb";
 import Index from "./pages/Index";
 import Pastes from "./pages/Pastes";
 import Minas from "./pages/Minas";
 import Cementerio from "./pages/Cementerio";
 import Calles from "./pages/Calles";
+import Directorio from "./pages/Directorio";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,9 +27,11 @@ const App = () => (
           <Route path="/minas" element={<Minas />} />
           <Route path="/cementerio" element={<Cementerio />} />
           <Route path="/calles" element={<Calles />} />
+          <Route path="/directorio" element={<Directorio />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <CompassNav />
+        <GuideOrb />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
