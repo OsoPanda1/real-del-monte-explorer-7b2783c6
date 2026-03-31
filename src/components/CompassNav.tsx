@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import SearchOverlay from "@/components/SearchOverlay";
 
 const navItems = [
   { label: "PASTES", path: "/pastes" },
   { label: "MINAS", path: "/minas" },
   { label: "CEMENTERIO", path: "/cementerio" },
   { label: "CALLES", path: "/calles" },
+  { label: "DIRECTORIO", path: "/directorio" },
 ];
 
 const CompassNav = () => {
