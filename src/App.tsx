@@ -27,9 +27,11 @@ const App = () => (
           <Route path="/minas" element={<Minas />} />
           <Route path="/cementerio" element={<Cementerio />} />
           <Route path="/calles" element={<Calles />} />
+          <Route path="/directorio" element={<Directorio />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <CompassNav />
+        <GuideOrb />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

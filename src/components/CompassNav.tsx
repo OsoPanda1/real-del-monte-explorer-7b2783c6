@@ -13,9 +13,21 @@ const navItems = [
 
 const CompassNav = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   return (
     <>
+      {/* Search trigger */}
+      <button
+        onClick={() => setSearchOpen(true)}
+        className="fixed bottom-8 right-24 z-50 w-12 h-12 flex items-center justify-center font-display text-sm tracking-widest transition-colors duration-300 text-foreground hover:text-primary"
+        aria-label="Buscar"
+      >
+        <span className="select-none">⌕</span>
+      </button>
+
+      <SearchOverlay isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+
       {/* Compass trigger */}
       <button
         onClick={() => setIsOpen(!isOpen)}
