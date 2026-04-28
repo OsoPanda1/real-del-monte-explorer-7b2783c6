@@ -9,6 +9,8 @@ const navItems = [
   { label: "CEMENTERIO", path: "/cementerio" },
   { label: "CALLES", path: "/calles" },
   { label: "DIRECTORIO", path: "/directorio" },
+  { label: "ECOSISTEMA", path: "/ecosistema" },
+  { label: "NODO CERO", path: "/nodo-cero" },
 ];
 
 const CompassNav = () => {
