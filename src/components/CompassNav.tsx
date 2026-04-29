@@ -1,48 +1,75 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import SearchOverlay from "@/components/SearchOverlay";
 
-const navItems = [
-  { label: "PASTES", path: "/pastes" },
-  { label: "MINAS", path: "/minas" },
-  { label: "CEMENTERIO", path: "/cementerio" },
-  { label: "CALLES", path: "/calles" },
-  { label: "DIRECTORIO", path: "/directorio" },
-  { label: "ECOSISTEMA", path: "/ecosistema" },
-  { label: "NODO CERO", path: "/nodo-cero" },
+type NavItem = { label: string; path: string };
+type NavGroup = { title: string; subtitle: string; items: NavItem[] };
+
+const groups: NavGroup[] = [
+  {
+    title: "TERRITORIO",
+    subtitle: "El pueblo que se camina",
+    items: [
+      { label: "Inicio", path: "/" },
+      { label: "Pastes", path: "/pastes" },
+      { label: "Minas", path: "/minas" },
+      { label: "Cementerio", path: "/cementerio" },
+      { label: "Calles", path: "/calles" },
+      { label: "Rutas", path: "/rutas" },
+      { label: "Leyendas", path: "/leyendas" },
+      { label: "Eventos", path: "/eventos" },
+    ],
+  },
+  {
+    title: "ECOSISTEMA",
+    subtitle: "TAMV Online · Federaciones · IA",
+    items: [
+      { label: "Plataforma", path: "/plataforma" },
+      { label: "Federaciones", path: "/federaciones" },
+      { label: "Isabella IA", path: "/isabella" },
+      { label: "Ecosistema GitHub", path: "/ecosistema" },
+      { label: "Directorio", path: "/directorio" },
+      { label: "Mapa", path: "/mapa" },
+    ],
+  },
+  {
+    title: "GOBERNANZA",
+    subtitle: "Soberanía digital del territorio",
+    items: [
+      { label: "Nodo Cero", path: "/nodo-cero" },
+      { label: "Auditoría · BookPI", path: "/auditoria" },
+      { label: "Propuesta Municipal", path: "/propuesta" },
+      { label: "Acceso", path: "/auth" },
+    ],
+  },
 ];
 
 const CompassNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const location = useLocation();
 
   return (
     <>
-      {/* Search trigger */}
       <button
         onClick={() => setSearchOpen(true)}
-        className="fixed bottom-8 right-24 z-50 w-12 h-12 flex items-center justify-center font-display text-sm tracking-widest transition-colors duration-300 text-foreground hover:text-primary"
+        className="fixed bottom-8 right-24 z-50 w-12 h-12 flex items-center justify-center font-display text-xl text-foreground hover:text-primary transition-colors"
         aria-label="Buscar"
       >
-        <span className="select-none">⌕</span>
+        ⌕
       </button>
-
       <SearchOverlay isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
 
-      {/* Compass trigger */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-8 right-8 z-50 w-12 h-12 flex items-center justify-center font-display text-xl transition-colors duration-300"
-        style={{
-          color: isOpen ? "hsl(var(--primary-foreground))" : "hsl(var(--foreground))",
-        }}
+        className="fixed bottom-8 right-8 z-50 w-12 h-12 flex items-center justify-center font-display text-xl transition-colors"
+        style={{ color: isOpen ? "hsl(var(--primary-foreground))" : "hsl(var(--foreground))" }}
         aria-label="Abrir navegación"
       >
-        <span className="select-none">{isOpen ? "×" : "+"}</span>
+        {isOpen ? "×" : "+"}
       </button>
 
-      {/* Fullscreen overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.nav
@@ -50,32 +77,52 @@ const CompassNav = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-40 bg-carbon-overlay flex items-center justify-center"
+            className="fixed inset-0 z-40 bg-carbon-overlay overflow-y-auto"
           >
-            <div className="flex flex-col items-center gap-12">
-              <Link
-                to="/"
-                onClick={() => setIsOpen(false)}
-                className="font-display text-sm tracking-widest text-primary-foreground/60 hover:text-primary transition-colors duration-300"
-              >
-                INICIO
-              </Link>
-              {navItems.map((item, i) => (
-                <motion.div
-                  key={item.path}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + i * 0.08, duration: 0.4 }}
-                >
-                  <Link
-                    to={item.path}
-                    onClick={() => setIsOpen(false)}
-                    className="font-display text-4xl md:text-6xl tracking-tight text-primary-foreground hover:text-primary transition-colors duration-300"
+            <div className="min-h-screen px-6 py-20 md:py-28 max-w-6xl mx-auto">
+              <div className="grid md:grid-cols-3 gap-12 md:gap-8">
+                {groups.map((group, gi) => (
+                  <motion.div
+                    key={group.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 + gi * 0.1, duration: 0.4 }}
                   >
-                    {item.label}
-                  </Link>
-                </motion.div>
-              ))}
+                    <p className="font-display text-xs tracking-[0.3em] text-primary mb-2">
+                      {String(gi + 1).padStart(2, "0")} · {group.title}
+                    </p>
+                    <p className="font-body italic text-primary-foreground/50 text-sm mb-6">
+                      {group.subtitle}
+                    </p>
+                    <ul className="space-y-3">
+                      {group.items.map((item) => {
+                        const active = location.pathname === item.path;
+                        return (
+                          <li key={item.path}>
+                            <Link
+                              to={item.path}
+                              onClick={() => setIsOpen(false)}
+                              className={`font-display text-xl md:text-2xl tracking-tight transition-colors ${
+                                active
+                                  ? "text-primary"
+                                  : "text-primary-foreground hover:text-primary"
+                              }`}
+                            >
+                              {item.label}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="mt-16 pt-8 border-t border-primary-foreground/10 text-center">
+                <p className="font-display text-[10px] tracking-[0.3em] text-primary-foreground/40">
+                  RDM DIGITAL · TAMV ONLINE · NODO CERO
+                </p>
+              </div>
             </div>
           </motion.nav>
         )}
