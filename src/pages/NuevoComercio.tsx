@@ -67,9 +67,17 @@ const NuevoComercio = () => {
     }
 
     const { error } = await supabase.from("comercios").insert({
-      ...parsed.data,
+      nombre: parsed.data.nombre,
+      descripcion: parsed.data.descripcion || null,
+      federacion: parsed.data.federacion,
+      direccion: parsed.data.direccion || null,
+      telefono: parsed.data.telefono || null,
+      whatsapp: parsed.data.whatsapp || null,
+      instagram: parsed.data.instagram || null,
       sitio_web: parsed.data.sitio_web || null,
       imagen_url: parsed.data.imagen_url || null,
+      latitud: parsed.data.latitud ?? null,
+      longitud: parsed.data.longitud ?? null,
       owner_id: user.id,
     });
 
