@@ -1,5 +1,10 @@
 import { motion } from "framer-motion";
 import PageHero from "@/components/PageHero";
+import { Button } from "@/components/ui/button";
+import { startCattleyaCheckout } from "@/lib/tamv-gateway-client";
+import { toast } from "sonner";
+import { useState } from "react";
+import { CreditCard, Loader2 } from "lucide-react";
 
 const ingresos = [
   { cat: "Hoteles", base: 20, cuota: 500, total: 10000 },
