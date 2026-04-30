@@ -23,12 +23,14 @@ const groups: NavGroup[] = [
   },
   {
     title: "ECOSISTEMA",
-    subtitle: "TAMV Online · Federaciones · IA",
+    subtitle: "TAMV Online · Federaciones · IA · Kernel",
     items: [
       { label: "Plataforma", path: "/plataforma" },
       { label: "Federaciones", path: "/federaciones" },
       { label: "Isabella IA", path: "/isabella" },
       { label: "Ecosistema GitHub", path: "/ecosistema" },
+      { label: "PDOS Core", path: "/pdos-core" },
+      { label: "DM-X7 Gateway", path: "/dm-x7" },
       { label: "Directorio", path: "/directorio" },
       { label: "Mapa", path: "/mapa" },
     ],
@@ -38,6 +40,8 @@ const groups: NavGroup[] = [
     subtitle: "Soberanía digital del territorio",
     items: [
       { label: "Nodo Cero", path: "/nodo-cero" },
+      { label: "Atlas Federado", path: "/atlas" },
+      { label: "Guardian Console", path: "/guardian" },
       { label: "Auditoría · BookPI", path: "/auditoria" },
       { label: "Propuesta Municipal", path: "/propuesta" },
       { label: "Acceso", path: "/auth" },

@@ -1,5 +1,10 @@
 import { motion } from "framer-motion";
 import PageHero from "@/components/PageHero";
+import { Button } from "@/components/ui/button";
+import { startCattleyaCheckout } from "@/lib/tamv-gateway-client";
+import { toast } from "sonner";
+import { useState } from "react";
+import { CreditCard, Loader2 } from "lucide-react";
 
 const ingresos = [
   { cat: "Hoteles", base: 20, cuota: 500, total: 10000 },
@@ -21,6 +26,25 @@ const fmt = (n: number) => `$${n.toLocaleString("es-MX")} MXN`;
 
 const Propuesta = () => {
   const subtotal = ingresos.reduce((s, r) => s + r.total, 0);
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+
+  const subscribe = async (cat: string, monto: number) => {
+    setLoadingPlan(cat);
+    try {
+      const res = await startCattleyaCheckout({
+        product: `Suscripción Federación ${cat}`,
+        amount_cents: monto * 100,
+        plan: "monthly",
+        currency: "mxn",
+      });
+      if (res.url) window.location.href = res.url;
+      else toast.error(res.error ?? "No se pudo iniciar el checkout");
+    } catch (e) {
+      toast.error((e as Error).message);
+    } finally {
+      setLoadingPlan(null);
+    }
+  };
 
   return (
     <main>
@@ -55,6 +79,7 @@ const Propuesta = () => {
                   <th className="text-right p-3 font-display text-xs tracking-widest">Base</th>
                   <th className="text-right p-3 font-display text-xs tracking-widest">Cuota</th>
                   <th className="text-right p-3 font-display text-xs tracking-widest">Mensual</th>
+                  <th className="text-right p-3 font-display text-xs tracking-widest">Suscribir</th>
                 </tr>
               </thead>
               <tbody>
@@ -64,6 +89,16 @@ const Propuesta = () => {
                     <td className="p-3 text-right font-body">{r.base}</td>
                     <td className="p-3 text-right font-body">{fmt(r.cuota)}</td>
                     <td className="p-3 text-right font-body">{fmt(r.total)}</td>
+                    <td className="p-3 text-right">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => subscribe(r.cat, r.cuota)}
+                        disabled={loadingPlan === r.cat}
+                      >
+                        {loadingPlan === r.cat ? <Loader2 className="h-3 w-3 animate-spin" /> : <CreditCard className="h-3 w-3" />}
+                      </Button>
+                    </td>
                   </tr>
                 ))}
                 <tr className="border-t-2 border-foreground/20 bg-foreground/5">
@@ -71,6 +106,7 @@ const Propuesta = () => {
                   <td className="p-3 text-right font-display">220</td>
                   <td className="p-3"></td>
                   <td className="p-3 text-right font-display text-primary">{fmt(subtotal)}</td>
+                  <td className="p-3"></td>
                 </tr>
               </tbody>
             </table>
