@@ -27,6 +27,10 @@ import Mapa from "./pages/Mapa";
 import NodoCero from "./pages/NodoCero";
 import Auditoria from "./pages/Auditoria";
 import Propuesta from "./pages/Propuesta";
+import Atlas from "./pages/Atlas";
+import Guardian from "./pages/Guardian";
+import PdosCore from "./pages/PdosCore";
+import DmX7 from "./pages/DmX7";
 import Auth from "./pages/Auth";
 
 import NotFound from "./pages/NotFound";
