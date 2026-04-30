@@ -26,6 +26,25 @@ const fmt = (n: number) => `$${n.toLocaleString("es-MX")} MXN`;
 
 const Propuesta = () => {
   const subtotal = ingresos.reduce((s, r) => s + r.total, 0);
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+
+  const subscribe = async (cat: string, monto: number) => {
+    setLoadingPlan(cat);
+    try {
+      const res = await startCattleyaCheckout({
+        product: `Suscripción Federación ${cat}`,
+        amount_cents: monto * 100,
+        plan: "monthly",
+        currency: "mxn",
+      });
+      if (res.url) window.location.href = res.url;
+      else toast.error(res.error ?? "No se pudo iniciar el checkout");
+    } catch (e) {
+      toast.error((e as Error).message);
+    } finally {
+      setLoadingPlan(null);
+    }
+  };
 
   return (
     <main>
