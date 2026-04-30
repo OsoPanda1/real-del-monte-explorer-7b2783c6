@@ -79,6 +79,7 @@ const Propuesta = () => {
                   <th className="text-right p-3 font-display text-xs tracking-widest">Base</th>
                   <th className="text-right p-3 font-display text-xs tracking-widest">Cuota</th>
                   <th className="text-right p-3 font-display text-xs tracking-widest">Mensual</th>
+                  <th className="text-right p-3 font-display text-xs tracking-widest">Suscribir</th>
                 </tr>
               </thead>
               <tbody>
