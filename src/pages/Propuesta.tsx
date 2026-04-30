@@ -88,6 +88,16 @@ const Propuesta = () => {
                     <td className="p-3 text-right font-body">{r.base}</td>
                     <td className="p-3 text-right font-body">{fmt(r.cuota)}</td>
                     <td className="p-3 text-right font-body">{fmt(r.total)}</td>
+                    <td className="p-3 text-right">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => subscribe(r.cat, r.cuota)}
+                        disabled={loadingPlan === r.cat}
+                      >
+                        {loadingPlan === r.cat ? <Loader2 className="h-3 w-3 animate-spin" /> : <CreditCard className="h-3 w-3" />}
+                      </Button>
+                    </td>
                   </tr>
                 ))}
                 <tr className="border-t-2 border-foreground/20 bg-foreground/5">
