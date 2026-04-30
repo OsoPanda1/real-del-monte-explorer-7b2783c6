@@ -14,6 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
+      cattleya_payment_ledger: {
+        Row: {
+          amount_cents: number
+          created_at: string
+          currency: string
+          failure_reason: string | null
+          id: string
+          metadata: Json
+          operation_id: string
+          plan: string | null
+          product: string
+          provider: string
+          provider_payment_id: string | null
+          provider_session_id: string | null
+          retry_count: number
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          amount_cents: number
+          created_at?: string
+          currency?: string
+          failure_reason?: string | null
+          id?: string
+          metadata?: Json
+          operation_id: string
+          plan?: string | null
+          product: string
+          provider?: string
+          provider_payment_id?: string | null
+          provider_session_id?: string | null
+          retry_count?: number
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          amount_cents?: number
+          created_at?: string
+          currency?: string
+          failure_reason?: string | null
+          id?: string
+          metadata?: Json
+          operation_id?: string
+          plan?: string | null
+          product?: string
+          provider?: string
+          provider_payment_id?: string | null
+          provider_session_id?: string | null
+          retry_count?: number
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       comercios: {
         Row: {
           activo: boolean
@@ -140,6 +197,219 @@ export type Database = {
           metrica?: string
           unidad?: string | null
           valor?: number
+        }
+        Relationships: []
+      }
+      pdos_decisions: {
+        Row: {
+          confidence: number
+          context: Json
+          created_at: string
+          decisions: Json
+          explanation: Json
+          id: string
+          query: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          rule_version: string
+          status: string
+          trace_id: string
+        }
+        Insert: {
+          confidence?: number
+          context?: Json
+          created_at?: string
+          decisions?: Json
+          explanation?: Json
+          id?: string
+          query?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          rule_version?: string
+          status?: string
+          trace_id?: string
+        }
+        Update: {
+          confidence?: number
+          context?: Json
+          created_at?: string
+          decisions?: Json
+          explanation?: Json
+          id?: string
+          query?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          rule_version?: string
+          status?: string
+          trace_id?: string
+        }
+        Relationships: []
+      }
+      pdos_edges: {
+        Row: {
+          created_at: string
+          from_node: string
+          id: string
+          relation_type: string
+          to_node: string
+          weight: number
+        }
+        Insert: {
+          created_at?: string
+          from_node: string
+          id?: string
+          relation_type: string
+          to_node: string
+          weight?: number
+        }
+        Update: {
+          created_at?: string
+          from_node?: string
+          id?: string
+          relation_type?: string
+          to_node?: string
+          weight?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pdos_edges_from_node_fkey"
+            columns: ["from_node"]
+            isOneToOne: false
+            referencedRelation: "pdos_nodes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pdos_edges_to_node_fkey"
+            columns: ["to_node"]
+            isOneToOne: false
+            referencedRelation: "pdos_nodes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pdos_executions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          domain: string
+          duration_ms: number | null
+          event_hash: string | null
+          id: string
+          payload: Json
+          result: Json
+          status: string
+          stream_id: string
+          stream_version: number
+          task: string
+          trace_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          domain?: string
+          duration_ms?: number | null
+          event_hash?: string | null
+          id?: string
+          payload?: Json
+          result?: Json
+          status?: string
+          stream_id: string
+          stream_version: number
+          task: string
+          trace_id?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          domain?: string
+          duration_ms?: number | null
+          event_hash?: string | null
+          id?: string
+          payload?: Json
+          result?: Json
+          status?: string
+          stream_id?: string
+          stream_version?: number
+          task?: string
+          trace_id?: string
+        }
+        Relationships: []
+      }
+      pdos_nodes: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          importance: number
+          metadata: Json
+          slug: string
+          title: string
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          importance?: number
+          metadata?: Json
+          slug: string
+          title: string
+          type?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          importance?: number
+          metadata?: Json
+          slug?: string
+          title?: string
+          type?: string
+        }
+        Relationships: []
+      }
+      pdos_repos: {
+        Row: {
+          category: string
+          created_at: string
+          forks: number
+          highlight: boolean
+          id: string
+          language: string | null
+          metadata: Json
+          name: string
+          role: string | null
+          score: number
+          stars: number
+          url: string | null
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          forks?: number
+          highlight?: boolean
+          id?: string
+          language?: string | null
+          metadata?: Json
+          name: string
+          role?: string | null
+          score?: number
+          stars?: number
+          url?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          forks?: number
+          highlight?: boolean
+          id?: string
+          language?: string | null
+          metadata?: Json
+          name?: string
+          role?: string | null
+          score?: number
+          stars?: number
+          url?: string | null
         }
         Relationships: []
       }

@@ -1,1 +1,10 @@
 project_id = "plblmrpjbbytyvudxlgz"
+
+[functions.dm-x7-gateway]
+verify_jwt = false
+
+[functions.isabella-core]
+verify_jwt = false
+
+[functions.cattleya-charge]
+verify_jwt = false
