@@ -63,8 +63,13 @@ const App = () => (
           <Route path="/mapa" element={<Mapa />} />
           {/* Gobernanza */}
           <Route path="/nodo-cero" element={<NodoCero />} />
+          <Route path="/atlas" element={<Atlas />} />
+          <Route path="/guardian" element={<Guardian />} />
           <Route path="/auditoria" element={<Auditoria />} />
           <Route path="/propuesta" element={<Propuesta />} />
+          {/* Ecosistema técnico */}
+          <Route path="/pdos-core" element={<PdosCore />} />
+          <Route path="/dm-x7" element={<DmX7 />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
