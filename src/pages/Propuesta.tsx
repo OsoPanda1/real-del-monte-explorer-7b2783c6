@@ -106,6 +106,7 @@ const Propuesta = () => {
                   <td className="p-3 text-right font-display">220</td>
                   <td className="p-3"></td>
                   <td className="p-3 text-right font-display text-primary">{fmt(subtotal)}</td>
+                  <td className="p-3"></td>
                 </tr>
               </tbody>
             </table>
