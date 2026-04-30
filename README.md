@@ -1,4 +1,3 @@
----
 # THE AWAKENING | TAMV ONLINE ECOSYSTEM
 
 > **Root Architect:** Edwin Oswaldo Castillo Trejo (Anubis Villaseñor)  
