@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.cattleya-charge]
 verify_jwt = false
+
+[functions.promote-admin]
+verify_jwt = false
