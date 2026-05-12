@@ -11,3 +11,12 @@ verify_jwt = false
 
 [functions.promote-admin]
 verify_jwt = false
+
+[functions.revoke-admin]
+verify_jwt = false
+
+[functions.guardian-list]
+verify_jwt = false
+
+[functions.executions-list]
+verify_jwt = false
