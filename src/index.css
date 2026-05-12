@@ -106,4 +106,35 @@
   .font-body {
     font-family: var(--font-body);
   }
+
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-105;
+  }
+
+  .xp-bar {
+    @apply relative h-3 w-full overflow-hidden rounded-full bg-muted;
+  }
+  .xp-fill {
+    @apply absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-primary via-primary to-oxido;
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite, progress-fill 1.2s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+
+  .badge-tile {
+    @apply relative aspect-square flex flex-col items-center justify-center rounded-lg border-2 transition-all duration-300;
+  }
+  .badge-tile.unlocked {
+    @apply border-primary bg-card hover:scale-110 hover:-rotate-3;
+  }
+  .badge-tile.unlocked:hover {
+    animation: glow 2s ease-in-out infinite;
+  }
+  .badge-tile.locked {
+    @apply border-border bg-muted/40 grayscale opacity-50;
+  }
+
+  .confetti-piece {
+    @apply absolute top-0 w-2 h-3 rounded-sm pointer-events-none;
+    animation: confetti 3s ease-in forwards;
+  }
 }
