@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import CompassNav from "@/components/CompassNav";
 import GuideOrb from "@/components/GuideOrb";
+import NotificationsBell from "@/components/NotificationsBell";
 
 import Index from "./pages/Index";
 // Territorio
@@ -32,6 +33,9 @@ import Guardian from "./pages/Guardian";
 import PdosCore from "./pages/PdosCore";
 import DmX7 from "./pages/DmX7";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
+import Tutorial from "./pages/Tutorial";
+import Logros from "./pages/Logros";
 
 import NotFound from "./pages/NotFound";
 
@@ -70,10 +74,16 @@ const App = () => (
           {/* Ecosistema técnico */}
           <Route path="/pdos-core" element={<PdosCore />} />
           <Route path="/dm-x7" element={<DmX7 />} />
+          {/* Onboarding & engagement */}
+          <Route path="/tutorial" element={<Tutorial />} />
+          <Route path="/logros" element={<Logros />} />
+          {/* Auth */}
           <Route path="/auth" element={<Auth />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <CompassNav />
+        <NotificationsBell />
         <GuideOrb />
       </BrowserRouter>
     </TooltipProvider>

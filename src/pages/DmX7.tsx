@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import PageHero from "@/components/PageHero";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,31 +6,29 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { askIsabella, callGateway } from "@/lib/tamv-gateway-client";
-import { supabase } from "@/integrations/supabase/client";
-import { Sparkles, Send, Zap, History, RotateCw, Search } from "lucide-react";
+import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/select";
+import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
+  AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { askIsabella, callGateway, callGatewayFull, listExecutions } from "@/lib/tamv-gateway-client";
+import { toast } from "sonner";
+import { Sparkles, Send, Zap, History, RotateCw, Search, ChevronLeft, ChevronRight } from "lucide-react";
 
 const ACTIONS = [
-  "kernel.isabella.test",
-  "kernel.isabella.query",
-  "kernel.event.append",
-  "kernel.graph.snapshot",
-  "kernel.repos.list",
-  "security.sentinel.status",
+  "kernel.isabella.test", "kernel.isabella.query", "kernel.event.append",
+  "kernel.graph.snapshot", "kernel.repos.list", "security.sentinel.status",
 ];
 
 interface Execution {
-  id: string;
-  task: string;
-  domain: string;
-  status: string;
-  trace_id: string;
-  payload: any;
-  result: any;
-  duration_ms: number | null;
-  created_at: string;
-  stream_id: string;
+  id: string; task: string; domain: string; status: string;
+  trace_id: string; payload: any; result: any; duration_ms: number | null;
+  created_at: string; stream_id: string;
 }
+
+const PAGE_SIZE = 25;
 
 export default function DmX7() {
   const [action, setAction] = useState("kernel.isabella.test");
@@ -41,21 +39,32 @@ export default function DmX7() {
   const [askResult, setAskResult] = useState<any>(null);
 
   const [history, setHistory] = useState<Execution[]>([]);
-  const [historyQuery, setHistoryQuery] = useState("");
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
   const [refreshing, setRefreshing] = useState(false);
+  const [filterTrace, setFilterTrace] = useState("");
+  const [filterTask, setFilterTask] = useState("");
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [filterFrom, setFilterFrom] = useState("");
+  const [filterTo, setFilterTo] = useState("");
 
-  const fetchHistory = async () => {
+  const [confirmReplay, setConfirmReplay] = useState<Execution | null>(null);
+
+  const fetchHistory = async (p = page) => {
     setRefreshing(true);
-    const { data } = await supabase
-      .from("pdos_executions")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(100);
-    setHistory((data as Execution[]) ?? []);
-    setRefreshing(false);
+    try {
+      const res = await listExecutions({
+        page: p, page_size: PAGE_SIZE,
+        trace_id: filterTrace || undefined, task: filterTask || undefined,
+        status: filterStatus, from: filterFrom || undefined, to: filterTo || undefined,
+      });
+      setHistory(res.rows as Execution[]); setTotal(res.total); setPage(res.page);
+    } catch (e: any) { toast.error(e.message ?? "Error"); }
+    finally { setRefreshing(false); }
   };
 
-  useEffect(() => { fetchHistory(); }, []);
+  useEffect(() => { fetchHistory(1); /* eslint-disable-next-line */ }, []);
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   const run = async (actionOverride?: string, payloadOverride?: any) => {
     const a = actionOverride ?? action;
@@ -66,22 +75,23 @@ export default function DmX7() {
         : (payload.trim() ? JSON.parse(payload) : {});
       const res = await callGateway(a, parsed);
       setResponse(res);
-      // log local en pdos_executions vía gateway action kernel.event.append
       await callGateway("kernel.event.append", { stream_id: "dm-x7-ui", task: a, ...parsed }).catch(() => {});
       fetchHistory();
-    } catch (e) {
-      setResponse({ error: (e as Error).message });
-    } finally {
-      setLoading(false);
-    }
+    } catch (e) { setResponse({ error: (e as Error).message }); }
+    finally { setLoading(false); }
   };
 
-  const replay = (ex: Execution) => {
-    const a = `kernel.event.${ex.task}`.startsWith("kernel.event.kernel.")
-      ? ex.task : (ACTIONS.includes(ex.task) ? ex.task : action);
-    setAction(ex.task && ACTIONS.includes(ex.task) ? ex.task : action);
-    setPayload(JSON.stringify(ex.payload ?? {}, null, 2));
-    if (ACTIONS.includes(ex.task)) run(ex.task, ex.payload);
+  const doReplay = async (ex: Execution) => {
+    setConfirmReplay(null);
+    setLoading(true);
+    try {
+      const res = await callGatewayFull(ex.task, ex.payload ?? {}, { replay_of: ex.trace_id });
+      const newTrace = res.new_trace_id?.slice(0, 8) ?? "?";
+      toast.success(`Replay ejecutado · nuevo trace ${newTrace}`, { duration: 6000 });
+      setResponse(res.result);
+      fetchHistory();
+    } catch (e: any) { toast.error(e.message ?? "Error replay"); }
+    finally { setLoading(false); }
   };
 
   const ask = async () => {
@@ -92,30 +102,15 @@ export default function DmX7() {
     finally { setLoading(false); }
   };
 
-  const filteredHistory = useMemo(() => {
-    const q = historyQuery.toLowerCase().trim();
-    if (!q) return history;
-    return history.filter((h) =>
-      h.trace_id.toLowerCase().includes(q) ||
-      h.task.toLowerCase().includes(q) ||
-      h.stream_id.toLowerCase().includes(q) ||
-      JSON.stringify(h.payload ?? {}).toLowerCase().includes(q)
-    );
-  }, [history, historyQuery]);
-
   return (
     <div className="min-h-screen bg-background pb-24">
-      <PageHero
-        title="DM-X7 Gateway"
-        subtitle="Playground del gateway unificado del kernel TAMV OS"
-        eyebrow="Ecosistema · Infraestructura"
-      />
+      <PageHero title="DM-X7 Gateway" subtitle="Playground del gateway unificado del kernel TAMV OS" eyebrow="Ecosistema · Infraestructura" />
 
       <div className="container mx-auto px-4 mt-8">
         <Tabs defaultValue="playground">
           <TabsList>
             <TabsTrigger value="playground">Playground</TabsTrigger>
-            <TabsTrigger value="history"><History className="h-4 w-4 mr-1" />Historial ({history.length})</TabsTrigger>
+            <TabsTrigger value="history"><History className="h-4 w-4 mr-1" />Historial</TabsTrigger>
           </TabsList>
 
           <TabsContent value="playground" className="grid gap-6 lg:grid-cols-2 mt-6">
@@ -165,7 +160,7 @@ export default function DmX7() {
                           <Badge variant="outline">conf {(askResult.confidence * 100).toFixed(0)}%</Badge>
                         </div>
                         {askResult.decisions?.map((d: any, i: number) => (
-                          <div key={i} className="text-sm border border-border rounded p-3 bg-card">
+                          <div key={i} className="text-sm border border-border rounded p-3 bg-card animate-fade-in">
                             <div className="flex items-center justify-between mb-1">
                               <Badge variant="secondary" className="text-[10px]">{d.type}</Badge>
                               <span className="text-[10px] font-mono text-muted-foreground">prio {d.priority}</span>
@@ -182,21 +177,38 @@ export default function DmX7() {
           </TabsContent>
 
           <TabsContent value="history" className="space-y-4 mt-6">
-            <div className="flex gap-2">
-              <div className="relative flex-1">
-                <Search className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                <Input className="pl-8" placeholder="Buscar por trace_id, task, stream o payload…"
-                  value={historyQuery} onChange={(e) => setHistoryQuery(e.target.value)} />
-              </div>
-              <Button variant="outline" size="sm" onClick={fetchHistory} disabled={refreshing}>
-                <RotateCw className={`h-4 w-4 mr-1 ${refreshing ? "animate-spin" : ""}`} />Refrescar
-              </Button>
+            <Card>
+              <CardContent className="py-4 grid gap-3 md:grid-cols-6">
+                <div className="md:col-span-2 relative">
+                  <Search className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                  <Input className="pl-8" placeholder="trace_id…" value={filterTrace} onChange={(e) => setFilterTrace(e.target.value)} />
+                </div>
+                <Input placeholder="task…" value={filterTask} onChange={(e) => setFilterTask(e.target.value)} />
+                <Select value={filterStatus} onValueChange={setFilterStatus}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todos</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
+                    <SelectItem value="failed">Failed</SelectItem>
+                    <SelectItem value="pending">Pending</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Input type="date" value={filterFrom} onChange={(e) => setFilterFrom(e.target.value)} />
+                <Input type="date" value={filterTo} onChange={(e) => setFilterTo(e.target.value)} />
+                <Button onClick={() => fetchHistory(1)} className="md:col-span-6 md:max-w-xs md:mx-auto">
+                  <RotateCw className={`h-4 w-4 mr-1 ${refreshing ? "animate-spin" : ""}`} /> Aplicar filtros
+                </Button>
+              </CardContent>
+            </Card>
+
+            <div className="flex items-center text-xs text-muted-foreground">
+              {total} ejecuciones · página {page} de {totalPages}
             </div>
 
-            {filteredHistory.length === 0 ? (
+            {history.length === 0 ? (
               <Card><CardContent className="py-10 text-center text-muted-foreground">Sin ejecuciones registradas.</CardContent></Card>
-            ) : filteredHistory.map((ex) => (
-              <Card key={ex.id}>
+            ) : history.map((ex) => (
+              <Card key={ex.id} className="animate-fade-in">
                 <CardContent className="py-4 space-y-2">
                   <div className="flex items-center justify-between gap-2 flex-wrap">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -205,8 +217,11 @@ export default function DmX7() {
                       <Badge variant="secondary">{ex.stream_id}</Badge>
                       <Badge variant={ex.status === "completed" ? "default" : "destructive"}>{ex.status}</Badge>
                       <span className="text-xs text-muted-foreground">{new Date(ex.created_at).toLocaleString("es-MX")} · {ex.duration_ms ?? 0}ms</span>
+                      {(ex.payload as any)?.replay_of && (
+                        <Badge variant="outline" className="text-[10px]">replay de {String((ex.payload as any).replay_of).slice(0,8)}</Badge>
+                      )}
                     </div>
-                    <Button size="sm" variant="outline" onClick={() => replay(ex)}>
+                    <Button size="sm" variant="outline" onClick={() => setConfirmReplay(ex)}>
                       <RotateCw className="h-4 w-4 mr-1" /> Repetir
                     </Button>
                   </div>
@@ -216,9 +231,38 @@ export default function DmX7() {
                 </CardContent>
               </Card>
             ))}
+
+            {totalPages > 1 && (
+              <div className="flex items-center justify-center gap-2 mt-4">
+                <Button size="sm" variant="outline" disabled={page === 1} onClick={() => fetchHistory(page - 1)}>
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <span className="text-sm">{page} / {totalPages}</span>
+                <Button size="sm" variant="outline" disabled={page >= totalPages} onClick={() => fetchHistory(page + 1)}>
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            )}
           </TabsContent>
         </Tabs>
       </div>
+
+      <AlertDialog open={!!confirmReplay} onOpenChange={(o) => !o && setConfirmReplay(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>¿Repetir esta ejecución?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Se generará un <strong>nuevo trace_id</strong> y se registrará un evento auditable en
+              <code> pdos_executions </code> con <code>replay_of = {confirmReplay?.trace_id?.slice(0, 8)}</code>.
+              Acción: <code>{confirmReplay?.task}</code>.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={() => confirmReplay && doReplay(confirmReplay)}>Confirmar replay</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
