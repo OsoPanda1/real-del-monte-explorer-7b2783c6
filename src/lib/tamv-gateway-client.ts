@@ -11,7 +11,7 @@ export interface GatewayResponse<T = unknown> {
   replay_of?: string;
 }
 
-export async function callGateway<T = unknown>(
+export async function callGatewayFull<T = unknown>(
   action: string,
   payload: Record<string, unknown> = {},
   opts: { replay_of?: string } = {},
@@ -23,6 +23,14 @@ export async function callGateway<T = unknown>(
   const res = data as GatewayResponse<T>;
   if (!res.ok) throw new Error(res.error ?? "gateway error");
   return res;
+}
+
+export async function callGateway<T = unknown>(
+  action: string,
+  payload: Record<string, unknown> = {},
+): Promise<T> {
+  const res = await callGatewayFull<T>(action, payload);
+  return res.result as T;
 }
 
 export async function askIsabella(query: string) {
