@@ -27,7 +27,7 @@ export function useGamification() {
   const award = useCallback(async (kind: string, pts: number, metadata: Record<string, unknown> = {}) => {
     if (!user) return;
     const { data, error } = await supabase.rpc("award_points", {
-      _user_id: user.id, _kind: kind, _points: pts, _metadata: metadata,
+      _user_id: user.id, _kind: kind, _points: pts, _metadata: metadata as any,
     });
     if (error) { console.error(error); return; }
     const row = Array.isArray(data) ? data[0] : data;
