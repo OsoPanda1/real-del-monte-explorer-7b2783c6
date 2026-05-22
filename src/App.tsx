@@ -36,6 +36,8 @@ import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
 import Tutorial from "./pages/Tutorial";
 import Logros from "./pages/Logros";
+import Manifiesto from "./pages/Manifiesto";
+import Blueprint from "./pages/Blueprint";
 
 import NotFound from "./pages/NotFound";
 
@@ -77,6 +79,8 @@ const App = () => (
           {/* Onboarding & engagement */}
           <Route path="/tutorial" element={<Tutorial />} />
           <Route path="/logros" element={<Logros />} />
+          <Route path="/manifiesto" element={<Manifiesto />} />
+          <Route path="/blueprint" element={<Blueprint />} />
           {/* Auth */}
           <Route path="/auth" element={<Auth />} />
           <Route path="/reset-password" element={<ResetPassword />} />
