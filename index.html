@@ -1,17 +1,318 @@
 <!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Real del Monte — Pueblo Mágico de Hidalgo</title>
-    <meta name="description" content="Guía digital de Real del Monte, Pueblo Mágico en Hidalgo, México. Descubre sus minas, pastes, cementerio inglés y calles empedradas." />
-    <meta property="og:title" content="Real del Monte — Pueblo Mágico" />
-    <meta property="og:description" content="Descubre el alma de Real del Monte: minas de plata, pastes, el Panteón Inglés y calles empedradas entre la niebla." />
-    <meta property="og:type" content="website" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- Responsive -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+  <!-- ========================================================= -->
+  <!-- IDENTIDAD -->
+  <!-- ========================================================= -->
+
+  <title>
+    RDM Digital™ | Infraestructura Digital Inteligente de Real del Monte
+  </title>
+
+  <meta
+    name="description"
+    content="RDM Digital es la infraestructura digital inteligente de Real del Monte. Conecta patrimonio, cultura, turismo, comercio local, eventos, servicios y comunidad mediante una plataforma territorial moderna diseñada para impulsar el desarrollo sostenible del municipio."
+  />
+
+  <meta
+    name="keywords"
+    content="
+    Real del Monte,
+    Mineral del Monte,
+    Pueblo Mágico,
+    Hidalgo,
+    Turismo Inteligente,
+    Smart City,
+    Smart Destination,
+    Destino Inteligente,
+    Patrimonio Cultural,
+    Patrimonio Minero,
+    Comercio Local,
+    Transformación Digital,
+    Innovación Territorial,
+    Desarrollo Regional,
+    Comunidad,
+    Turismo Cultural,
+    Turismo Histórico,
+    Hidalgo México,
+    Ecosistema Digital,
+    RDM Digital
+  "
+  />
+
+  <meta name="author" content="RDM Digital" />
+  <meta name="application-name" content="RDM Digital" />
+  <meta name="apple-mobile-web-app-title" content="RDM Digital" />
+  <meta name="generator" content="RDM Digital Platform" />
+  <meta name="theme-color" content="#08111F" />
+  <meta name="color-scheme" content="dark light" />
+
+  <!-- ========================================================= -->
+  <!-- INDEXACIÓN -->
+  <!-- ========================================================= -->
+
+  <meta
+    name="robots"
+    content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+  />
+
+  <meta
+    name="googlebot"
+    content="index, follow, max-image-preview:large"
+  />
+
+  <link
+    rel="canonical"
+    href="https://rdmdigital.mx"
+  />
+
+  <!-- ========================================================= -->
+  <!-- GEOLOCALIZACIÓN -->
+  <!-- ========================================================= -->
+
+  <meta name="geo.region" content="MX-HID" />
+  <meta name="geo.placename" content="Real del Monte" />
+  <meta name="geo.position" content="20.1387;-98.6717" />
+  <meta name="ICBM" content="20.1387, -98.6717" />
+
+  <!-- ========================================================= -->
+  <!-- OPEN GRAPH -->
+  <!-- ========================================================= -->
+
+  <meta
+    property="og:type"
+    content="website"
+  />
+
+  <meta
+    property="og:locale"
+    content="es_MX"
+  />
+
+  <meta
+    property="og:site_name"
+    content="RDM Digital"
+  />
+
+  <meta
+    property="og:url"
+    content="https://rdmdigital.mx"
+  />
+
+  <meta
+    property="og:title"
+    content="RDM Digital™ | Infraestructura Digital Inteligente de Real del Monte"
+  />
+
+  <meta
+    property="og:description"
+    content="Patrimonio, cultura, turismo, comercio local, eventos, servicios y comunidad conectados mediante una infraestructura digital diseñada para impulsar la evolución territorial de Real del Monte."
+  />
+
+  <meta
+    property="og:image"
+    content="https://rdmdigital.mx/og-rdm-digital.jpg"
+  />
+
+  <meta
+    property="og:image:secure_url"
+    content="https://rdmdigital.mx/og-rdm-digital.jpg"
+  />
+
+  <meta
+    property="og:image:width"
+    content="1200"
+  />
+
+  <meta
+    property="og:image:height"
+    content="630"
+  />
+
+  <meta
+    property="og:image:type"
+    content="image/jpeg"
+  />
+
+  <meta
+    property="og:image:alt"
+    content="RDM Digital - Plataforma Inteligente de Real del Monte"
+  />
+
+  <!-- ========================================================= -->
+  <!-- TWITTER / X -->
+  <!-- ========================================================= -->
+
+  <meta
+    name="twitter:card"
+    content="summary_large_image"
+  />
+
+  <meta
+    name="twitter:title"
+    content="RDM Digital™ | Infraestructura Digital Inteligente de Real del Monte"
+  />
+
+  <meta
+    name="twitter:description"
+    content="La plataforma inteligente que conecta patrimonio, turismo, comercio, cultura y comunidad en Real del Monte."
+  />
+
+  <meta
+    name="twitter:image"
+    content="https://rdmdigital.mx/og-rdm-digital.jpg"
+  />
+
+  <!-- ========================================================= -->
+  <!-- PWA -->
+  <!-- ========================================================= -->
+
+  <meta
+    name="mobile-web-app-capable"
+    content="yes"
+  />
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+  />
+
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent"
+  />
+
+  <meta
+    name="apple-touch-fullscreen"
+    content="yes"
+  />
+
+  <link
+    rel="manifest"
+    href="/manifest.webmanifest"
+  />
+
+  <!-- ========================================================= -->
+  <!-- ICONOGRAFÍA -->
+  <!-- ========================================================= -->
+
+  <link
+    rel="icon"
+    type="image/x-icon"
+    href="/favicon.ico"
+  />
+
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="/favicon-32x32.png"
+  />
+
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="192x192"
+    href="/icon-192.png"
+  />
+
+  <link
+    rel="apple-touch-icon"
+    href="/apple-touch-icon.png"
+  />
+
+  <!-- ========================================================= -->
+  <!-- PRECONNECT -->
+  <!-- ========================================================= -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- ========================================================= -->
+  <!-- SCHEMA.ORG ORGANIZATION -->
+  <!-- ========================================================= -->
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"RDM Digital",
+    "url":"https://rdmdigital.mx",
+    "logo":"https://rdmdigital.mx/logo.png",
+    "description":"Infraestructura digital inteligente para el fortalecimiento territorial de Real del Monte.",
+    "address":{
+      "@type":"PostalAddress",
+      "addressLocality":"Real del Monte",
+      "addressRegion":"Hidalgo",
+      "addressCountry":"MX"
+    }
+  }
+  </script>
+
+  <!-- ========================================================= -->
+  <!-- SCHEMA.ORG WEBSITE -->
+  <!-- ========================================================= -->
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"RDM Digital",
+    "alternateName":"Real del Monte Digital",
+    "url":"https://rdmdigital.mx",
+    "inLanguage":"es-MX",
+    "description":"Infraestructura digital comunitaria para patrimonio, turismo, cultura, comercio y desarrollo territorial.",
+    "publisher":{
+      "@type":"Organization",
+      "name":"RDM Digital"
+    }
+  }
+  </script>
+
+  <!-- ========================================================= -->
+  <!-- SCHEMA.ORG TOURIST DESTINATION -->
+  <!-- ========================================================= -->
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"TouristDestination",
+    "name":"Real del Monte",
+    "description":"Pueblo Mágico del estado de Hidalgo reconocido por su patrimonio minero, arquitectura histórica y tradición cultural.",
+    "touristType":[
+      "Turismo Cultural",
+      "Turismo Histórico",
+      "Turismo Gastronómico"
+    ],
+    "geo":{
+      "@type":"GeoCoordinates",
+      "latitude":"20.1387",
+      "longitude":"-98.6717"
+    },
+    "containedInPlace":{
+      "@type":"State",
+      "name":"Hidalgo"
+    }
+  }
+  </script>
+
+</head>
+
+<body>
+
+  <noscript>
+    Para utilizar RDM Digital es necesario habilitar JavaScript.
+  </noscript>
+
+  <div id="root"></div>
+
+  <script type="module" src="/src/main.tsx"></script>
+
+</body>
 </html>
