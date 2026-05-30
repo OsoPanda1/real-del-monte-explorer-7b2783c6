@@ -38,6 +38,7 @@ import Tutorial from "./pages/Tutorial";
 import Logros from "./pages/Logros";
 import Manifiesto from "./pages/Manifiesto";
 import Blueprint from "./pages/Blueprint";
+import Nexus from "./pages/Nexus";
 
 import NotFound from "./pages/NotFound";
 
@@ -81,6 +82,7 @@ const App = () => (
           <Route path="/logros" element={<Logros />} />
           <Route path="/manifiesto" element={<Manifiesto />} />
           <Route path="/blueprint" element={<Blueprint />} />
+          <Route path="/nexus" element={<Nexus />} />
           {/* Auth */}
           <Route path="/auth" element={<Auth />} />
           <Route path="/reset-password" element={<ResetPassword />} />

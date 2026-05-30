@@ -46,6 +46,7 @@ const groups: NavGroup[] = [
       { label: "Propuesta Municipal", path: "/propuesta" },
       { label: "Manifiesto · Awakening", path: "/manifiesto" },
       { label: "Blueprint MD-X4", path: "/blueprint" },
+      { label: "Nexus ELITE HeHep", path: "/nexus" },
       { label: "Tutorial", path: "/tutorial" },
       { label: "Logros / XP", path: "/logros" },
       { label: "Acceso", path: "/auth" },
