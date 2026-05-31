@@ -20,3 +20,9 @@ verify_jwt = false
 
 [functions.executions-list]
 verify_jwt = false
+
+[functions.membership-checkout]
+verify_jwt = false
+
+[functions.membership-status]
+verify_jwt = false
