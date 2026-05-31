@@ -126,7 +126,7 @@ const NavLink = forwardRef<HTMLAnchorElement, NavLinkEnhancedProps>(
             )}
 
             <span className="relative">
-              {children}
+              {children as ReactNode}
               {badge !== undefined && (
                 <span className="absolute -top-1 -right-2 inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 text-[0.65rem] font-bold text-rdm-night bg-rdm-gold rounded-full">
                   {badge}
