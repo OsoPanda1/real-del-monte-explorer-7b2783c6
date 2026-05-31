@@ -122,6 +122,36 @@ export type Database = {
         }
         Relationships: []
       }
+      coin_transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          kind: string
+          metadata: Json
+          reference: string | null
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          kind: string
+          metadata?: Json
+          reference?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          kind?: string
+          metadata?: Json
+          reference?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       comercios: {
         Row: {
           activo: boolean
@@ -227,6 +257,42 @@ export type Database = {
         }
         Relationships: []
       }
+      game_sessions: {
+        Row: {
+          coins_earned: number
+          duration_seconds: number | null
+          game: string
+          id: string
+          metadata: Json
+          played_at: string
+          score: number
+          user_id: string
+          xp_earned: number
+        }
+        Insert: {
+          coins_earned?: number
+          duration_seconds?: number | null
+          game: string
+          id?: string
+          metadata?: Json
+          played_at?: string
+          score?: number
+          user_id: string
+          xp_earned?: number
+        }
+        Update: {
+          coins_earned?: number
+          duration_seconds?: number | null
+          game?: string
+          id?: string
+          metadata?: Json
+          played_at?: string
+          score?: number
+          user_id?: string
+          xp_earned?: number
+        }
+        Relationships: []
+      }
       gamification_badges: {
         Row: {
           description: string | null
@@ -302,6 +368,57 @@ export type Database = {
           updated_at?: string
           user_id?: string
           xp?: number
+        }
+        Relationships: []
+      }
+      memberships: {
+        Row: {
+          cancel_at_period_end: boolean
+          created_at: string
+          currency: string
+          current_period_end: string | null
+          id: string
+          metadata: Json
+          plan: string
+          price_cents: number
+          provider: string
+          provider_customer_id: string | null
+          provider_subscription_id: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cancel_at_period_end?: boolean
+          created_at?: string
+          currency?: string
+          current_period_end?: string | null
+          id?: string
+          metadata?: Json
+          plan?: string
+          price_cents?: number
+          provider?: string
+          provider_customer_id?: string | null
+          provider_subscription_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cancel_at_period_end?: boolean
+          created_at?: string
+          currency?: string
+          current_period_end?: string | null
+          id?: string
+          metadata?: Json
+          plan?: string
+          price_cents?: number
+          provider?: string
+          provider_customer_id?: string | null
+          provider_subscription_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -605,6 +722,149 @@ export type Database = {
         }
         Relationships: []
       }
+      rdm_coins_wallet: {
+        Row: {
+          balance: number
+          total_earned: number
+          total_spent: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          total_earned?: number
+          total_spent?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          total_earned?: number
+          total_spent?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      reward_redemptions: {
+        Row: {
+          cost_coins: number
+          created_at: string
+          fulfilled_at: string | null
+          fulfilled_by: string | null
+          id: string
+          metadata: Json
+          redemption_code: string
+          reward_id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          cost_coins: number
+          created_at?: string
+          fulfilled_at?: string | null
+          fulfilled_by?: string | null
+          id?: string
+          metadata?: Json
+          redemption_code?: string
+          reward_id: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          cost_coins?: number
+          created_at?: string
+          fulfilled_at?: string | null
+          fulfilled_by?: string | null
+          id?: string
+          metadata?: Json
+          redemption_code?: string
+          reward_id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reward_redemptions_reward_id_fkey"
+            columns: ["reward_id"]
+            isOneToOne: false
+            referencedRelation: "rewards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rewards: {
+        Row: {
+          active: boolean
+          category: string
+          cost_coins: number
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          name: string
+          partner: string | null
+          stock: number | null
+        }
+        Insert: {
+          active?: boolean
+          category?: string
+          cost_coins: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name: string
+          partner?: string | null
+          stock?: number | null
+        }
+        Update: {
+          active?: boolean
+          category?: string
+          cost_coins?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          partner?: string | null
+          stock?: number | null
+        }
+        Relationships: []
+      }
+      trivia_questions: {
+        Row: {
+          active: boolean
+          category: string
+          correct_index: number
+          created_at: string
+          difficulty: number
+          id: string
+          options: Json
+          question: string
+        }
+        Insert: {
+          active?: boolean
+          category?: string
+          correct_index: number
+          created_at?: string
+          difficulty?: number
+          id?: string
+          options: Json
+          question: string
+        }
+        Update: {
+          active?: boolean
+          category?: string
+          correct_index?: number
+          created_at?: string
+          difficulty?: number
+          id?: string
+          options?: Json
+          question?: string
+        }
+        Relationships: []
+      }
       user_badges: {
         Row: {
           awarded_at: string
@@ -657,6 +917,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      award_coins: {
+        Args: {
+          _amount: number
+          _kind: string
+          _metadata?: Json
+          _reference?: string
+          _user_id: string
+        }
+        Returns: number
+      }
       award_points: {
         Args: {
           _kind: string
@@ -678,6 +948,17 @@ export type Database = {
         Returns: boolean
       }
       is_email_allowlisted: { Args: { _email: string }; Returns: boolean }
+      is_member_active: { Args: { _user_id: string }; Returns: boolean }
+      redeem_reward: { Args: { _reward_id: string }; Returns: Json }
+      submit_game_score: {
+        Args: {
+          _duration?: number
+          _game: string
+          _metadata?: Json
+          _score: number
+        }
+        Returns: Json
+      }
     }
     Enums: {
       app_role: "admin" | "comerciante" | "ciudadano"

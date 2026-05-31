@@ -26,7 +26,7 @@ import {
   BookOpen,
   FileText,
   Lightbulb,
-  Blueprint as BlueprintIcon,
+  BookMarked as BlueprintIcon,
   Hexagon,
   GraduationCap,
   Trophy,
