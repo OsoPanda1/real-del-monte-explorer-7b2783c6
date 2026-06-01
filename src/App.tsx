@@ -107,37 +107,21 @@ const routeMap = [
 
 const AppRouteEffects = () => {
   const location = useLocation();
-
-  useEffect(() => {
-    warmCriticalRoutes();
-  }, []);
-
-  useEffect(() => {
-    prefetchRouteChunk(location.pathname);
-  }, [location.pathname]);
-
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [location.pathname]);
-
   return null;
 };
 
+
 const App = () => (
-  <ErrorBoundary
-    FallbackComponent={ErrorFallback}
-    onError={(error, info) => {
-      console.error("App Error:", error, info);
-    }}
-    onReset={() => window.location.assign("/")}
-    resetKeys={[window.location.pathname]}
-  >
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider delayDuration={200}>
-        <Toaster />
-        <Sonner position="bottom-right" richColors closeButton />
-        <BrowserRouter>
-          <AppRouteEffects />
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider delayDuration={200}>
+      <Toaster />
+      <Sonner position="bottom-right" richColors closeButton />
+      <BrowserRouter>
+        <AppRouteEffects />
+
           <Routes>
             <Route path="/auth" element={<Auth />} />
             <Route path="/reset-password" element={<ResetPassword />} />
