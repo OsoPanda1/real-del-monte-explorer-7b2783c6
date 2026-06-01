@@ -15,6 +15,7 @@ import rdmLogo from "@/assets/rdm-logo.png";
 import {
   HE_HEXAGONS, HEP_DOMAINS, ISABELLA_MODULES, ATLAS_BACKEND_ENDPOINTS, ELITE_HEHEP_MANIFEST,
 } from "@/data/eliteHeHep";
+import { useLiveSignals } from "@/hooks/useLiveSignals";
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -32,20 +33,20 @@ const worlds = [
   { to: "/juegos",      icon: Trophy,    title: "Juego",        desc: "3 mini-juegos territoriales, RDM Coins y recompensas reales.",        tag: "$129/mes", grad: "from-rdm-candle/30 to-rdm-amber/10" },
 ];
 
-const signals = [
-  { label: "Altitud",        value: "2,660 m", icon: Mountain },
-  { label: "Hexágonos",      value: "6 / 6",   icon: Hexagon },
-  { label: "Dominios",       value: "7 / 7",   icon: Network },
-  { label: "Módulos Isabella", value: `${ISABELLA_MODULES.length}`, icon: Cpu },
-  { label: "Endpoints Atlas", value: `${ATLAS_BACKEND_ENDPOINTS.length}+`, icon: Radio },
-  { label: "Niebla",         value: "drift", icon: Activity },
-];
-
 const Index = () => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const live = useLiveSignals();
+  const signals = [
+    { label: "Altitud",          value: live.altitude,                 icon: Mountain },
+    { label: "Habitantes",       value: String(live.habitantes),       icon: Users },
+    { label: "Decisiones · 24h", value: String(live.decisiones24h),    icon: Activity },
+    { label: "Partidas · 24h",   value: String(live.partidas24h),      icon: Trophy },
+    { label: "Comercios",        value: String(live.comercios),        icon: MapPin },
+    { label: "Módulos",          value: live.modules,                  icon: Cpu },
+  ];
 
   return (
     <div ref={ref} className="relative">
@@ -231,19 +232,20 @@ const Index = () => {
           </motion.div>
 
           {/* Hexagons */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             {HE_HEXAGONS.map((h, i) => (
-              <motion.div key={h.id} {...fadeUp} transition={{ ...fadeUp.transition, delay: i * 0.04 }}
-                className="territory-panel p-5 group hover:border-rdm-data/40 transition-colors">
-                <div className="flex items-center justify-between mb-3">
-                  <Hexagon className="h-5 w-5 text-rdm-data" />
-                  <code className="text-[10px] text-rdm-fog/50 font-mono">{h.id}</code>
-                </div>
-                <div className="font-heritage text-xl text-rdm-platinum">{h.name}</div>
-                <p className="text-xs text-rdm-fog/65 mt-2 leading-relaxed">{h.role}</p>
-                <div className="mt-3 text-[10px] font-mono uppercase tracking-widest text-rdm-gold/70">
-                  evt: {h.eventPrefix}
-                </div>
+              <motion.div key={h.id} {...fadeUp} transition={{ ...fadeUp.transition, delay: i * 0.04 }}>
+                <Link to={`/nexus#${h.id}`} className="territory-panel p-5 group hover:border-rdm-data/40 transition-colors block h-full">
+                  <div className="flex items-center justify-between mb-3">
+                    <Hexagon className="h-5 w-5 text-rdm-data" />
+                    <code className="text-[10px] text-rdm-fog/50 font-mono">{h.id}</code>
+                  </div>
+                  <div className="font-heritage text-xl text-rdm-platinum group-hover:text-rdm-data transition-colors">{h.name}</div>
+                  <p className="text-xs text-rdm-fog/65 mt-2 leading-relaxed">{h.role}</p>
+                  <div className="mt-3 text-[10px] font-mono uppercase tracking-widest text-rdm-gold/70">
+                    evt: {h.eventPrefix}
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </div>
@@ -251,11 +253,11 @@ const Index = () => {
           {/* Domains pills */}
           <motion.div {...fadeUp} className="flex flex-wrap gap-2 justify-center mb-10">
             {HEP_DOMAINS.map((d) => (
-              <span key={d.id} className="signal-chip border-rdm-grid/20">
+              <Link key={d.id} to={`/federaciones#${d.id}`} className="signal-chip border-rdm-grid/20 hover:border-rdm-grid/50 transition-colors">
                 <Network className="h-3 w-3 text-rdm-grid" />
                 <span className="font-mono text-[10px] text-rdm-fog/60">{d.id}</span>
                 <span className="text-rdm-platinum">{d.name}</span>
-              </span>
+              </Link>
             ))}
           </motion.div>
 
@@ -272,11 +274,12 @@ const Index = () => {
             </div>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
               {ISABELLA_MODULES.slice(0, 12).map((m) => (
-                <div key={m.module} className="rounded-xl border border-rdm-gold/15 bg-rdm-night/40 p-3 hover:border-rdm-gold/40 transition-colors">
+                <Link key={m.module} to={`/isabella#${encodeURIComponent(m.module)}`}
+                  className="rounded-xl border border-rdm-gold/15 bg-rdm-night/40 p-3 hover:border-rdm-gold/40 hover:bg-rdm-night/60 transition-colors block">
                   <div className="text-sm font-semibold text-rdm-platinum">{m.module}</div>
                   <div className="text-[10px] font-mono text-rdm-fog/50 mt-1">{m.hexagon} · {m.domain}</div>
                   <div className="text-[11px] text-rdm-fog/70 mt-2 line-clamp-2">{m.input} → {m.output}</div>
-                </div>
+                </Link>
               ))}
             </div>
           </motion.div>

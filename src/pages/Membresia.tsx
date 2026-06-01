@@ -29,6 +29,9 @@ export default function Membresia() {
     } else if (s === "cancel") {
       toast.info("Pago cancelado.");
     }
+    const onVis = () => { if (document.visibilityState === "visible") refresh(); };
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
   }, [params, refresh]);
 
   const checkout = async () => {
