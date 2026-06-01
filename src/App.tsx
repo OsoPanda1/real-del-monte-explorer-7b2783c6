@@ -252,18 +252,13 @@ const App = () => (
 
               <Route path="home" element={<Navigate to="/" replace />} />
               <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
-
-          <GuideOrb />
-        </BrowserRouter>
-
-        {import.meta.env.DEV && (
-          <ReactQueryDevtools initialIsOpen={false} position="bottom-left" />
-        )}
-      </TooltipProvider>
-    </QueryClientProvider>
-  </ErrorBoundary>
+          </Route>
+        </Routes>
+        <GuideOrb />
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
 );
+
 
 export default App;
