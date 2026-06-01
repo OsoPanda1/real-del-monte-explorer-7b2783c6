@@ -15,6 +15,7 @@ import rdmLogo from "@/assets/rdm-logo.png";
 import {
   HE_HEXAGONS, HEP_DOMAINS, ISABELLA_MODULES, ATLAS_BACKEND_ENDPOINTS, ELITE_HEHEP_MANIFEST,
 } from "@/data/eliteHeHep";
+import { useLiveSignals } from "@/hooks/useLiveSignals";
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -30,15 +31,6 @@ const worlds = [
   { to: "/isabella",    icon: Cpu,       title: "Inteligencia", desc: "Isabella AI · 14 módulos · Atlas · Nexus · DM-X7 · PDOS Core.",       tag: "14 mod", grad: "from-rdm-data/30 to-rdm-oxygen/10" },
   { to: "/nodo-cero",   icon: Shield,    title: "Gobernanza",   desc: "Nodo Cero, Guardian, Auditoría y federaciones SDMD-7.",               tag: "7 dominios", grad: "from-rdm-grid/25 to-rdm-slate/10" },
   { to: "/juegos",      icon: Trophy,    title: "Juego",        desc: "3 mini-juegos territoriales, RDM Coins y recompensas reales.",        tag: "$129/mes", grad: "from-rdm-candle/30 to-rdm-amber/10" },
-];
-
-const signals = [
-  { label: "Altitud",        value: "2,660 m", icon: Mountain },
-  { label: "Hexágonos",      value: "6 / 6",   icon: Hexagon },
-  { label: "Dominios",       value: "7 / 7",   icon: Network },
-  { label: "Módulos Isabella", value: `${ISABELLA_MODULES.length}`, icon: Cpu },
-  { label: "Endpoints Atlas", value: `${ATLAS_BACKEND_ENDPOINTS.length}+`, icon: Radio },
-  { label: "Niebla",         value: "drift", icon: Activity },
 ];
 
 const Index = () => {
