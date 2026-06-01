@@ -232,19 +232,20 @@ const Index = () => {
           </motion.div>
 
           {/* Hexagons */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             {HE_HEXAGONS.map((h, i) => (
-              <motion.div key={h.id} {...fadeUp} transition={{ ...fadeUp.transition, delay: i * 0.04 }}
-                className="territory-panel p-5 group hover:border-rdm-data/40 transition-colors">
-                <div className="flex items-center justify-between mb-3">
-                  <Hexagon className="h-5 w-5 text-rdm-data" />
-                  <code className="text-[10px] text-rdm-fog/50 font-mono">{h.id}</code>
-                </div>
-                <div className="font-heritage text-xl text-rdm-platinum">{h.name}</div>
-                <p className="text-xs text-rdm-fog/65 mt-2 leading-relaxed">{h.role}</p>
-                <div className="mt-3 text-[10px] font-mono uppercase tracking-widest text-rdm-gold/70">
-                  evt: {h.eventPrefix}
-                </div>
+              <motion.div key={h.id} {...fadeUp} transition={{ ...fadeUp.transition, delay: i * 0.04 }}>
+                <Link to={`/nexus#${h.id}`} className="territory-panel p-5 group hover:border-rdm-data/40 transition-colors block h-full">
+                  <div className="flex items-center justify-between mb-3">
+                    <Hexagon className="h-5 w-5 text-rdm-data" />
+                    <code className="text-[10px] text-rdm-fog/50 font-mono">{h.id}</code>
+                  </div>
+                  <div className="font-heritage text-xl text-rdm-platinum group-hover:text-rdm-data transition-colors">{h.name}</div>
+                  <p className="text-xs text-rdm-fog/65 mt-2 leading-relaxed">{h.role}</p>
+                  <div className="mt-3 text-[10px] font-mono uppercase tracking-widest text-rdm-gold/70">
+                    evt: {h.eventPrefix}
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </div>
@@ -252,11 +253,11 @@ const Index = () => {
           {/* Domains pills */}
           <motion.div {...fadeUp} className="flex flex-wrap gap-2 justify-center mb-10">
             {HEP_DOMAINS.map((d) => (
-              <span key={d.id} className="signal-chip border-rdm-grid/20">
+              <Link key={d.id} to={`/federaciones#${d.id}`} className="signal-chip border-rdm-grid/20 hover:border-rdm-grid/50 transition-colors">
                 <Network className="h-3 w-3 text-rdm-grid" />
                 <span className="font-mono text-[10px] text-rdm-fog/60">{d.id}</span>
                 <span className="text-rdm-platinum">{d.name}</span>
-              </span>
+              </Link>
             ))}
           </motion.div>
 
@@ -273,11 +274,12 @@ const Index = () => {
             </div>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
               {ISABELLA_MODULES.slice(0, 12).map((m) => (
-                <div key={m.module} className="rounded-xl border border-rdm-gold/15 bg-rdm-night/40 p-3 hover:border-rdm-gold/40 transition-colors">
+                <Link key={m.module} to={`/isabella#${encodeURIComponent(m.module)}`}
+                  className="rounded-xl border border-rdm-gold/15 bg-rdm-night/40 p-3 hover:border-rdm-gold/40 hover:bg-rdm-night/60 transition-colors block">
                   <div className="text-sm font-semibold text-rdm-platinum">{m.module}</div>
                   <div className="text-[10px] font-mono text-rdm-fog/50 mt-1">{m.hexagon} · {m.domain}</div>
                   <div className="text-[11px] text-rdm-fog/70 mt-2 line-clamp-2">{m.input} → {m.output}</div>
-                </div>
+                </Link>
               ))}
             </div>
           </motion.div>
