@@ -58,7 +58,7 @@ export default function TopSearch() {
         className="group flex items-center gap-2.5 w-full max-w-xl px-4 py-2 rounded-full bg-white/5 hover:bg-white/8 border border-white/10 hover:border-rdm-gold/30 transition-all text-left"
       >
         <Search className="h-4 w-4 text-rdm-fog/60 group-hover:text-rdm-gold transition-colors" />
-        <span className="flex-1 text-sm text-rdm-fog/55 truncate">Buscar en RDM Digital…</span>
+        <span className="flex-1 text-sm text-rdm-fog/55 truncate"><span className="hidden sm:inline">Buscar en RDM Digital…</span><span className="sm:hidden">Buscar…</span></span>
         <kbd className="hidden md:inline-flex items-center gap-1 text-[10px] text-rdm-fog/45 font-mono px-1.5 py-0.5 rounded border border-white/10">⌘K</kbd>
       </button>
 
