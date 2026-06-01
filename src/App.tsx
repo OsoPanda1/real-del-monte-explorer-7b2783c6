@@ -1,17 +1,19 @@
 import { lazy, Suspense, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { ErrorBoundary } from "react-error-boundary";
 import TerritoryShell from "@/components/TerritoryShell";
 import GuideOrb from "@/components/GuideOrb";
-import RouteLoader from "@/components/RouteLoader";
-import ErrorFallback from "@/components/ErrorFallback";
-import { prefetchRouteChunk, warmCriticalRoutes } from "@/lib/routePrefetch";
-import { routeMotion } from "@/lib/routeMotion";
+
+const RouteLoader = ({ }: { variant?: string; fullscreen?: boolean }) => (
+  <div className="min-h-[40vh] grid place-items-center">
+    <div className="h-10 w-10 rounded-full border-2 border-rdm-gold/30 border-t-rdm-gold animate-spin" />
+  </div>
+);
+
+
 
 // critical routes
 import Index from "./pages/Index";
@@ -105,37 +107,21 @@ const routeMap = [
 
 const AppRouteEffects = () => {
   const location = useLocation();
-
-  useEffect(() => {
-    warmCriticalRoutes();
-  }, []);
-
-  useEffect(() => {
-    prefetchRouteChunk(location.pathname);
-  }, [location.pathname]);
-
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [location.pathname]);
-
   return null;
 };
 
+
 const App = () => (
-  <ErrorBoundary
-    FallbackComponent={ErrorFallback}
-    onError={(error, info) => {
-      console.error("App Error:", error, info);
-    }}
-    onReset={() => window.location.assign("/")}
-    resetKeys={[window.location.pathname]}
-  >
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider delayDuration={200}>
-        <Toaster />
-        <Sonner position="bottom-right" richColors closeButton />
-        <BrowserRouter>
-          <AppRouteEffects />
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider delayDuration={200}>
+      <Toaster />
+      <Sonner position="bottom-right" richColors closeButton />
+      <BrowserRouter>
+        <AppRouteEffects />
+
           <Routes>
             <Route path="/auth" element={<Auth />} />
             <Route path="/reset-password" element={<ResetPassword />} />
@@ -266,18 +252,13 @@ const App = () => (
 
               <Route path="home" element={<Navigate to="/" replace />} />
               <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
-
-          <GuideOrb />
-        </BrowserRouter>
-
-        {import.meta.env.DEV && (
-          <ReactQueryDevtools initialIsOpen={false} position="bottom-left" />
-        )}
-      </TooltipProvider>
-    </QueryClientProvider>
-  </ErrorBoundary>
+          </Route>
+        </Routes>
+        <GuideOrb />
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
 );
+
 
 export default App;
