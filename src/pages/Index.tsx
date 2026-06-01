@@ -38,6 +38,15 @@ const Index = () => {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const live = useLiveSignals();
+  const signals = [
+    { label: "Altitud",          value: live.altitude,                 icon: Mountain },
+    { label: "Habitantes",       value: String(live.habitantes),       icon: Users },
+    { label: "Decisiones · 24h", value: String(live.decisiones24h),    icon: Activity },
+    { label: "Partidas · 24h",   value: String(live.partidas24h),      icon: Trophy },
+    { label: "Comercios",        value: String(live.comercios),        icon: MapPin },
+    { label: "Módulos",          value: live.modules,                  icon: Cpu },
+  ];
 
   return (
     <div ref={ref} className="relative">
