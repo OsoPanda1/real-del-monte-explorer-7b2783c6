@@ -16,12 +16,12 @@ export default function NotificationsBell() {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <button
-          className="fixed bottom-8 right-40 z-50 w-12 h-12 flex items-center justify-center text-foreground hover:text-primary transition-colors"
+          className="relative w-9 h-9 flex items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-rdm-fog hover:text-rdm-gold hover:border-rdm-gold/40 transition-colors"
           aria-label="Notificaciones"
         >
-          <Bell className="h-5 w-5" />
+          <Bell className="h-4 w-4" />
           {unreadCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[10px] font-bold rounded-full h-5 min-w-[20px] px-1 flex items-center justify-center animate-badge-pop">
+            <span className="absolute -top-1 -right-1 bg-rdm-gold text-rdm-night text-[10px] font-bold rounded-full h-4 min-w-[16px] px-1 flex items-center justify-center animate-badge-pop">
               {unreadCount}
             </span>
           )}
