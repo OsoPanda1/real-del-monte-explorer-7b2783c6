@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @layer reset, tokens, base, layout, components, utilities, motion;
 
 @layer reset {
