@@ -32,3 +32,6 @@ verify_jwt = false
 
 [functions.github-ecosystem]
 verify_jwt = false
+
+[functions.github-repo-detail]
+verify_jwt = false
